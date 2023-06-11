@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { WindTurbineComponent } from './components/digital-twin/wind-turbine/wind-turbine.component';
 import { FormsModule } from '@angular/forms';
 import { CreateProjectFormComponent } from './components/project/create-project-form/create-project-form.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CreateProjectFormComponent } from './components/project/create-project-
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
