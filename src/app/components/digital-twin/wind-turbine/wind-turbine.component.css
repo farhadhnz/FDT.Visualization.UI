@@ -1,0 +1,49 @@
+.wind-turbine {
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+
+  .blades {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    animation-name: spin;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    transform-origin: center center;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .blade {
+    width: 2px;
+    height: 80px;
+    background-color: gray;
+    position: absolute;
+    left: calc(50% - 1px);
+    top: 10px;
+    transform-origin: bottom center;
+  }
+  
+  .blade1 {
+    transform: rotate(0deg);
+  }
+  
+  .blade2 {
+    transform: rotate(120deg);
+  }
+  
+  .blade3 {
+    transform: rotate(240deg);
+  }
+
+
+  
