@@ -1,0 +1,23 @@
+<!-- project-list.component.html -->
+<table>
+    <thead>
+      <tr>
+        <th>Project Name</th>
+        <th>Project Type</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of projects">
+        <td>{{ project.projectName }}</td>
+        <td>{{ getProjectTypeLabel(project.projectType) }}</td>
+        <td>
+          <div class="button-container">
+            <button class="open-button" (click)="openProject(project)">Open</button>
+            <button class="delete-button" (click)="deleteProject(project.id)">Delete</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  

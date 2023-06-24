@@ -7,12 +7,14 @@ import { WindTurbineComponent } from './components/digital-twin/wind-turbine/win
 import { FormsModule } from '@angular/forms';
 import { CreateProjectFormComponent } from './components/project/create-project-form/create-project-form.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ProjectListComponent } from './components/project/project-list/project-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WindTurbineComponent,
-    CreateProjectFormComponent
+    CreateProjectFormComponent,
+    ProjectListComponent
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpService } from '../http.service';
 import { Observable } from 'rxjs';
-import { DigitalTwinProjectContract, CreateProjectCommand } from '../../models/digital-twin-project-contract.model';
+import { DigitalTwinProjectContract, Project, CreateProjectCommand } from '../../models/digital-twin-project-contract.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +20,20 @@ export class ProjectService {
     };
     const createProjectUrl = `${this.apiUrl}/createProject`;
     return this.httpService.post(createProjectUrl, createProjectCommand);
+  }
+
+  getProjects(): Observable<Project[]> {
+    const url = `${this.apiUrl}/Project`;
+    return this.httpService.get<Project[]>(url);
+  }
+
+  updateProject(projectId: number, project: any): Observable<any> {
+    const url = `Project/${projectId}`;
+    return this.httpService.put(`${this.apiUrl}/${url}`, project);
+  }
+
+  deleteProject(projectId: number): Observable<any> {
+    const url = `Project/${projectId}`;
+    return this.httpService.delete(`${this.apiUrl}/${url}`);
   }
 }
