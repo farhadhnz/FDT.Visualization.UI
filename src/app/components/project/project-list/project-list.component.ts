@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Project } from '../../../models/digital-twin-project-contract.model'
 import { ProjectService } from "../../../services/Project/project.service";
 import { ProjectType } from '../../../models/project-type';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-list',
@@ -11,7 +12,8 @@ import { ProjectType } from '../../../models/project-type';
 export class ProjectListComponent implements OnInit {
   projects: Project[];
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService,
+    private router: Router) { }
 
   public projectTypes: ProjectType[] = [
     { name: 'Wind Turbine', value: 1 }
@@ -33,8 +35,12 @@ export class ProjectListComponent implements OnInit {
   }
 
   openProject(project: Project): void {
-    // Implement the logic to open the project here
-    console.log('Opening project:', project);
+    const projectId = project.id;
+    this.openDigitalTwins(projectId);
+  }
+
+  openDigitalTwins(projectId: number) {
+    this.router.navigate([`project/${projectId}/digitalTwins`]);
   }
 
   deleteProject(projectId: number): void {

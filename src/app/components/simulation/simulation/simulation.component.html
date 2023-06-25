@@ -1,0 +1,10 @@
+<div>
+    <button (click)="startSimulation()" >Start</button>
+    <button (click)="pauseSimulation()" [disabled]="simulationPaused">Pause</button>
+    <button (click)="stopSimulation()" >Stop</button>
+  </div>
+
+<div *ngIf="powerOutputs && powerOutputs.length > 0">
+    <app-graph [chartData]="windSpeeds" [yAxisTitle]="'Wind Speed'" [chartTitle]="'Wind Speed Chart'"></app-graph>
+    <app-graph [chartData]="powerOutputs" [yAxisTitle]="'Power Output'" [chartTitle]="'Power Output Chart'"></app-graph>
+</div>
