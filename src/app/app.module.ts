@@ -12,6 +12,7 @@ import { ProjectListComponent } from './components/project/project-list/project-
 import { DigitalTwinListComponent } from './components/digital-twin/digital-twin-list/digital-twin-list.component';
 import { SimulationComponent } from './components/simulation/simulation/simulation.component';
 import { GraphComponent } from './components/simulation/graph/graph.component';
+import { ContinuousSimulationComponent } from './components/simulation/continuous-simulation/continuous-simulation.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { GraphComponent } from './components/simulation/graph/graph.component';
     ProjectListComponent,
     DigitalTwinListComponent,
     SimulationComponent,
-    GraphComponent
+    GraphComponent,
+    ContinuousSimulationComponent
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,7 @@
     <tr>
       <th>Digital Twin Name</th>
       <th>Simulation</th>
+      <th>Continuous Simulation</th>
     </tr>
   </thead>
   <tbody>
@@ -12,6 +13,9 @@
       <td>{{ digitalTwin.name }}</td>
       <td>
         <a [routerLink]="['/simulation', digitalTwin.id]">Simulation</a>
+      </td>
+      <td>
+        <a [routerLink]="['/continuous-simulation', digitalTwin.id]">Continuous Simulation</a>
       </td>
     </tr>
   </tbody>

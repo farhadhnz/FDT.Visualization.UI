@@ -13,8 +13,7 @@ export class GraphComponent implements OnInit, OnChanges {
   @Input() chartTitle: string;
   chartOptions : any;
   
-  ngOnInit(): void {
-
+  generateChartOptions(): void {
     this.chartOptions = {
       title: {
         text: this.chartTitle
@@ -29,20 +28,13 @@ export class GraphComponent implements OnInit, OnChanges {
     };
   }
 
+  ngOnInit(): void {
+    this.generateChartOptions();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chartData'] && !changes['chartData'].firstChange) {
-      this.chartOptions = {
-        title: {
-          text: this.chartTitle
-        },
-        axisY: {
-          title: this.yAxisTitle
-        },
-        data: [{
-          type: 'line',
-          dataPoints: this.chartData
-        }]
-      };
+      this.generateChartOptions();
     }
   }
 }

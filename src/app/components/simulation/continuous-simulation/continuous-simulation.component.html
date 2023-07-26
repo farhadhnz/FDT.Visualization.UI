@@ -1,0 +1,12 @@
+<div>
+    <button (click)="startContinuousSimulation()">Start</button>
+    <button (click)="pauseSimulation()" [disabled]="isPaused">Pause</button> 
+    <button (click)="resumeSimulation()" [disabled]="!isPaused">Resume</button>
+    <button (click)="stopSimulation()">Stop</button>
+  </div>
+  
+  <div *ngIf="powerOutputs && powerOutputs.length > 0">
+    <div *ngFor="let powerOutput of powerOutputs">
+        Power Output: {{ (powerOutput.y / 1000).toFixed(1) }} kW
+    </div>
+  </div>
