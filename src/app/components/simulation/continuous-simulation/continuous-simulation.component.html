@@ -10,3 +10,8 @@
         Power Output: {{ (powerOutput.y / 1000).toFixed(1) }} kW
     </div>
   </div>
+
+  <div *ngIf="powerOutputs && powerOutputs.length > 0">
+    <app-graph [chartData]="windSpeeds" [yAxisTitle]="'Wind Speed'" [chartTitle]="'Wind Speed Chart'"></app-graph>
+    <app-graph [chartData]="powerOutputs" [yAxisTitle]="'Power Output'" [chartTitle]="'Power Output Chart'"></app-graph>
+  </div>

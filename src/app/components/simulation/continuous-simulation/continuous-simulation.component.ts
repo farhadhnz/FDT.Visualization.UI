@@ -1,12 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SimulationService } from '../../../services/simulation.service';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, interval, take, takeUntil, takeWhile } from 'rxjs';
+import { Subject, filter, interval, merge, take, takeUntil, takeWhile } from 'rxjs';
 
 @Component({
   selector: 'app-continuous-simulation',
   templateUrl: './continuous-simulation.component.html',
-  styleUrls: ['./continuous-simulation.component.css']
+  styleUrls: ['./continuous-simulation.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ContinuousSimulationComponent implements OnInit  {
 
@@ -29,6 +30,7 @@ export class ContinuousSimulationComponent implements OnInit  {
   isPaused: boolean;
   private pauseSimulation$ = new Subject<void>();
   simulationId: string;
+  private simulationControl$ = new Subject<'start' | 'pause' | 'resume'>();
 
   startContinuousSimulation(): void {
     this.simulationService.startContinuousSimulation(this.digitalTwinId, this.simulatorId).subscribe({
@@ -45,66 +47,51 @@ export class ContinuousSimulationComponent implements OnInit  {
       complete: () => console.info('complete') 
     });
   
-    interval(1000)
-      .pipe(
-        takeWhile(() => !this.isPaused), // Continue the interval until the simulation is paused
-        takeUntil(this.pauseSimulation$) // Stop the interval when the pauseSimulation$ subject emits a value
-      )
-      .subscribe(() => {
-        this.simulationService.getContinuousData(this.simulationId, this.currentIndex).subscribe({
-          next: (response: any) => {
-            const windSpeed = response.windSpeed;
-            const powerOutput = response.powerOutput;
-  
-            this.windSpeeds.push({ x: this.currentIndex + 1, y: windSpeed });
-            this.powerOutputs.push({ x: this.currentIndex + 1, y: powerOutput });
-  
-            this.currentIndex++;
+    merge(
+      interval(1000).pipe(filter(() => !this.isPaused)),
+      this.simulationControl$
+    ).pipe(
+      takeUntil(this.pauseSimulation$)
+    )
+    .subscribe(action => {
+      if (action === 'pause') {
+        this.isPaused = true;
+      } else if (action === 'resume') {
+        this.isPaused = false;
+      } else if (!this.isPaused) {
+        this.fetchSimulationData();
+      }
+    });
+  }
 
-            // Trigger change detection manually after pushing the new item
-            this.cdRef.detectChanges();
-          },
-          error: (e) => console.error(e),
-          complete: () => console.info('complete') 
-        });
-      });
+  fetchSimulationData(): void {
+    this.simulationService.getContinuousData(this.simulationId, this.currentIndex).subscribe({
+      next: (response: any) => {
+        this.windSpeeds = [...this.windSpeeds, { x: this.currentIndex + 1, y: response.windSpeed }];
+        this.powerOutputs = [...this.powerOutputs, { x: this.currentIndex + 1, y: response.powerOutput }];
+
+        this.currentIndex++;
+        // Trigger change detection manually after pushing the new item
+        this.cdRef.detectChanges();
+      },
+      error: (e) => console.error(e),
+      complete: () => console.info('complete')
+    });
   }
   
   pauseSimulation(): void {
     this.isPaused = true; // Set the simulation state to paused
-    this.pauseSimulation$.next(); // Emit a value to stop the interval in startContinuousSimulation()
+    this.simulationControl$.next('pause'); // Emit a value to stop the interval in startContinuousSimulation()
   }
   
   resumeSimulation(): void {
     this.isPaused = false; // Set the simulation state to running
-    this.pauseSimulation$.next(); // Emit a value to stop the pauseObservable in startContinuousSimulation()
-  
-    interval(1000)
-      .pipe(
-        takeWhile(() => !this.isPaused), // Continue the interval until the simulation is paused
-        takeUntil(this.pauseSimulation$) // Stop the interval when the pauseSimulation$ subject emits a value
-      )
-      .subscribe(() => {
-        this.simulationService.getContinuousData(this.simulationId, this.currentIndex).subscribe({
-          next: (response: any) => {
-            const windSpeed = response.windSpeed;
-            const powerOutput = response.powerOutput;
-  
-            this.windSpeeds.push({ x: this.currentIndex + 1, y: windSpeed });
-            this.powerOutputs.push({ x: this.currentIndex + 1, y: powerOutput });
-  
-            this.currentIndex++;
-            this.cdRef.detectChanges(); // Update the view
-          },
-          error: (e) => console.error(e),
-          complete: () => console.info('complete')
-        });
-      });
+    this.simulationControl$.next('resume');
   }
   
   
   stopSimulation(): void {
-    this.isPaused = true; // Set the simulation state to paused
+    this.isPaused = false; // Set the simulation state to paused
     this.currentIndex = 0; // Reset the currentIndex
     this.windSpeeds = []; // Clear the windSpeeds array
     this.powerOutputs = []; // Clear the powerOutputs array
