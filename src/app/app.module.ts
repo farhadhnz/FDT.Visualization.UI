@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +14,7 @@ import { DigitalTwinListComponent } from './components/digital-twin/digital-twin
 import { SimulationComponent } from './components/simulation/simulation/simulation.component';
 import { GraphComponent } from './components/simulation/graph/graph.component';
 import { ContinuousSimulationComponent } from './components/simulation/continuous-simulation/continuous-simulation.component';
+import { secrets } from '../secrets/secrets';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,10 @@ import { ContinuousSimulationComponent } from './components/simulation/continuou
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    CanvasJSAngularChartsModule
+    CanvasJSAngularChartsModule,
+    NgxMapboxGLModule.withConfig({
+      accessToken: secrets.mapboxAccessToken,
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
