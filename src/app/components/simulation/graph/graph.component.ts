@@ -36,7 +36,7 @@ export class GraphComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chartData'] && !changes['chartData'].firstChange) {
       this.generateChartOptions();
-      this.chartKey++;  // Increment the key to force a re-render
+      this.chartKey++;
     }
   }
 }

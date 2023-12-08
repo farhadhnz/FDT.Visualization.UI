@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpService } from '../http.service';
 import { Observable } from 'rxjs';
 import { DigitalTwinProjectContract, Project, CreateProjectCommand } from '../../models/digital-twin-project-contract.model';
-import { DigitalTwin } from '../../models/digital-twin';
+import { BaseDigitalTwin, BaseDigitalTwinGet } from '../../models/digital-twin';
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +38,8 @@ export class ProjectService {
     return this.httpService.delete(`${this.apiUrl}/${url}`);
   }
 
-  getDigitalTwinsByProjectId(projectId: number): Observable<DigitalTwin[]> {
+  getDigitalTwinsByProjectId(projectId: number): Observable<BaseDigitalTwinGet[]> {
     const url = `${this.apiUrl}/getDigitalTwin/${projectId}/`;
-    return this.httpService.get<DigitalTwin[]>(url);
+    return this.httpService.get<BaseDigitalTwinGet[]>(url);
   }
 }

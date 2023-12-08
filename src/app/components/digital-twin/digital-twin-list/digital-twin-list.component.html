@@ -1,5 +1,16 @@
 <h2>Digital Twins</h2>
 
+<button (click)="toggleMarkerCreation()" [ngClass]="{'active': isMarkerCreationEnabled}">
+  {{ isMarkerCreationEnabled ? 'Close' : 'Create Digital Twin' }}
+</button>
+
+<div *ngIf="isMarkerCreationEnabled">
+  <app-create-digital-twin [projectId]="projectId"></app-create-digital-twin>
+</div>
+
+<button (click)="startSimulation()">Start Simulation</button>
+<button (click)="stopSimulation()">Stop Simulation</button>
+
 <table>
   <thead>
     <tr>
@@ -10,7 +21,9 @@
   </thead>
   <tbody>
     <tr *ngFor="let digitalTwin of digitalTwins">
-      <td>{{ digitalTwin.name }}</td>
+      <td>
+        <a [routerLink]="['/digitalTwin', digitalTwin.id]"> {{ digitalTwin.name }}</a> 
+      </td>
       <td>
         <a [routerLink]="['/simulation', digitalTwin.id]">Simulation</a>
       </td>
@@ -20,3 +33,6 @@
     </tr>
   </tbody>
 </table>
+
+<div class="map-container"></div>
+<app-wind-turbine-map *ngIf="digitalTwins" [digitalTwins]="digitalTwins"></app-wind-turbine-map>

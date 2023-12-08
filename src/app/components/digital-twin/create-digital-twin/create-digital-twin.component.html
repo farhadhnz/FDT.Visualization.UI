@@ -1,0 +1,26 @@
+<div>
+    <form [formGroup]="digitalTwinForm" (submit)="onSubmit()">
+      <label for="name">Name:</label>
+      <input type="text" id="name" formControlName="name">
+  
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description"></textarea>
+
+      <label for="powerRating">Power Rating (kW):</label>
+      <input type="number" id="powerRating" formControlName="powerRating" step="0.1">
+  
+      <label for="hubHeight">Hub Height (m):</label>
+      <input type="number" id="hubHeight" formControlName="hubHeight" step="0.1">
+  
+      <label for="rotorDiameter">Rotor Diameter (m):</label>
+      <input type="number" id="rotorDiameter" formControlName="rotorDiameter" step="0.1">
+  
+      <p>Click on the map to select location:</p>
+      <div id="map" style="height: 400px;"></div>
+      <div id="coords">
+        {{ currentCoords.lat | number:'1.2-2' }}, {{ currentCoords.lng | number:'1.2-2' }}
+      </div>
+
+      <button type="submit">Create Digital Twin</button>
+    </form>
+  </div>

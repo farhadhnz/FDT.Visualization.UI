@@ -31,6 +31,7 @@ export class CreateProjectFormComponent {
       next: () => {
         // Handle success
         console.log('Project created successfully');
+        this.toggleFormVisibility()
       },
       error: (error) => {
         // Handle error

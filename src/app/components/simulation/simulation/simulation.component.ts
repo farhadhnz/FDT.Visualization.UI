@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SimulationService } from '../../../services/simulation.service';
-import { GraphComponent } from '../graph/graph.component';
 
 @Component({
   selector: 'app-simulation',
@@ -28,17 +27,16 @@ export class SimulationComponent implements OnInit {
   startSimulation(): void {
     this.simulationService.startSimulation(this.digitalTwinId, this.simulatorId).subscribe({
       next: (response) => {
-        console.log(response.message); // Print the success message
+        console.log(response.message); 
   
-        // Extract the wind speeds and power outputs from the response
         const windSpeeds: number[] = response.windSpeeds;
         const powerOutputs: number[] = response.powerOutputs;
   
         this.windSpeeds = windSpeeds.map((windSpeed, index) => ({ x: index + 1, y: windSpeed }));
         this.powerOutputs = powerOutputs.map((powerOutput, index) => ({ x: index + 1, y: powerOutput }));
 
-        console.log(this.windSpeeds); // Print the wind speeds
-        console.log(this.powerOutputs); // Print the power outputs
+        console.log(this.windSpeeds);
+        console.log(this.powerOutputs); 
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete') 
@@ -46,12 +44,10 @@ export class SimulationComponent implements OnInit {
   }
 
   pauseSimulation() {
-    // Implement the logic to pause the simulation
     this.simulationPaused = !this.simulationPaused;
   }
 
   stopSimulation() {
-    // Implement the logic to stop the simulation
     this.simulationPaused = false;
   }
 }

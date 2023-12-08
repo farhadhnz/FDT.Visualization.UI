@@ -1,0 +1,7 @@
+<h2>{{ digitalTwin?.name }}</h2>
+
+<button (click)="startSimulation()">Start Simulation</button>
+<button (click)="stopSimulation()">Stop Simulation</button>
+
+<div class="map-container"></div>
+<app-wind-turbine-map *ngIf="digitalTwins.length > 0" [digitalTwins]="digitalTwins"></app-wind-turbine-map>

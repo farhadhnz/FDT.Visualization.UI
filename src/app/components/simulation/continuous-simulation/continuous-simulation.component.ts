@@ -37,11 +37,11 @@ export class ContinuousSimulationComponent implements OnInit  {
       next: (response: any) => {
         console.log(response.message);
         this.simulationId = response.simulationId;
-        this.currentIndex = 0; // Reset the currentIndex when the simulation starts
-        this.isPaused = false; // Set the simulation state to running
+        this.currentIndex = 0; 
+        this.isPaused = false; 
 
-        this.windSpeeds = []; // Initialize the wind speeds array
-        this.powerOutputs = []; // Initialize the power outputs array
+        this.windSpeeds = [];
+        this.powerOutputs = [];
       },
       error: (e) => console.error(e),
       complete: () => console.info('complete') 
@@ -71,7 +71,7 @@ export class ContinuousSimulationComponent implements OnInit  {
         this.powerOutputs = [...this.powerOutputs, { x: this.currentIndex + 1, y: response.powerOutput }];
 
         this.currentIndex++;
-        // Trigger change detection manually after pushing the new item
+        
         this.cdRef.detectChanges();
       },
       error: (e) => console.error(e),
@@ -80,21 +80,21 @@ export class ContinuousSimulationComponent implements OnInit  {
   }
   
   pauseSimulation(): void {
-    this.isPaused = true; // Set the simulation state to paused
-    this.simulationControl$.next('pause'); // Emit a value to stop the interval in startContinuousSimulation()
+    this.isPaused = true;
+    this.simulationControl$.next('pause');
   }
   
   resumeSimulation(): void {
-    this.isPaused = false; // Set the simulation state to running
+    this.isPaused = false;
     this.simulationControl$.next('resume');
   }
   
   
   stopSimulation(): void {
-    this.isPaused = false; // Set the simulation state to paused
-    this.currentIndex = 0; // Reset the currentIndex
-    this.windSpeeds = []; // Clear the windSpeeds array
-    this.powerOutputs = []; // Clear the powerOutputs array
-    this.pauseSimulation$.next(); // Emit a value to stop the interval in startContinuousSimulation()
+    this.isPaused = false;
+    this.currentIndex = 0;
+    this.windSpeeds = [];
+    this.powerOutputs = [];
+    this.pauseSimulation$.next();
   }
 }
